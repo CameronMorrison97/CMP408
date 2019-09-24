@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1569304130 source:/home/cam/Documents/main.c
+	<stdio.h>
+	<stdlib.h>
+
