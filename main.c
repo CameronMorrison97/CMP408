@@ -8,18 +8,19 @@
     @Param char input[2] - returns the input array which the user input their selection.
     @Returns input[0] - The first character of the input array.
 **/
-char validateInput(char input[2]){
+bool validateInput(char input[2]){
     int inputSize = sizeof(input);
 
     if(sizeof(input) > 1 && input[1] != '\0'){
-        return '0';
+        return false;
     }
 
-    return input[0];
+    return true;
 }
 
 void displayMenu(){
     char input[2];
+    bool valid = false;
 
     printf("***************************************************************\n");
     printf("*Vending Machine Control Console                              *\n");
@@ -37,7 +38,9 @@ void displayMenu(){
     printf("Enter your Choice: ");
     scanf("%s", &input);
 
-    char firstChar = validateInput(input);
+    valid = validateInput(input);
+
+    char firstChar = input[0];
 
     switch(firstChar){
         case '1':
@@ -62,6 +65,8 @@ void displayMenu(){
             system("clear");
             displayMenu();
     }
+
+
 
 }
 
