@@ -3,9 +3,23 @@
 
 #define INVALID 0
 
+/**
+    Validates user input and returns the first character of the array.
+    @Param char input[2] - returns the input array which the user input their selection.
+    @Returns input[0] - The first character of the input array.
+**/
+char validateInput(char input[2]){
+    int inputSize = sizeof(input);
+
+    if(sizeof(input) > 1 && input[1] != '\0'){
+        return '0';
+    }
+
+    return input[0];
+}
+
 void displayMenu(){
     char input[2];
-    int inputResult = NULL;
 
     printf("***************************************************************\n");
     printf("*Vending Machine Control Console                              *\n");
@@ -23,38 +37,34 @@ void displayMenu(){
     printf("Enter your Choice: ");
     scanf("%s", &input);
 
-    inputResult = atoi(input);
+    char firstChar = validateInput(input);
 
-    if(inputResult == INVALID){
-        system("clear");
-        displayMenu();
-    }
-
-    switch(inputResult){
-        case 1:
+    switch(firstChar){
+        case '1':
             printf("Add Machine\n");
             break;
-        case 2:
+        case '2':
             printf("Show All Machines\n");
             break;
-        case 3:
+        case '3':
             printf("Search By Index\n");
             break;
-        case 4:
+        case '4':
             printf("Delete Machine\n");
             break;
-        case 5:
+        case '5':
             printf("Update Status\n");
             break;
-        case 9:
+        case '9':
             printf("Exit\n");
             break;
+        default:
+            system("clear");
+            displayMenu();
     }
 
 }
 
 void main(){
     displayMenu();
-
-    printf("end");
 }
