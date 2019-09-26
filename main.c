@@ -1,5 +1,10 @@
+
+// Used for stdin and stdout
 #include <stdio.h>
 #include <stdlib.h>
+
+// Used for access to booleans
+#include<stdbool.h>
 
 #define INVALID 0
 
@@ -18,9 +23,12 @@ bool validateInput(char input[2]){
     return true;
 }
 
+/**
+    Displays the menu to the user.
+**/
 void displayMenu(){
     char input[2];
-    bool valid = false;
+    bool valid;
 
     printf("***************************************************************\n");
     printf("*Vending Machine Control Console                              *\n");
@@ -35,39 +43,55 @@ void displayMenu(){
     printf("5. Update Status\n");
     printf("9. Exit\n");
     printf("**************************************************************\n");
-    printf("Enter your Choice: ");
-    scanf("%s", &input);
 
-    valid = validateInput(input);
+    do{
+        // Get User Input
+        printf("Enter your Choice: ");
+        scanf("%s", &input);
 
-    char firstChar = input[0];
+        // Check if the user input is valid
+        valid = validateInput(input);
 
-    switch(firstChar){
-        case '1':
-            printf("Add Machine\n");
-            break;
-        case '2':
-            printf("Show All Machines\n");
-            break;
-        case '3':
-            printf("Search By Index\n");
-            break;
-        case '4':
-            printf("Delete Machine\n");
-            break;
-        case '5':
-            printf("Update Status\n");
-            break;
-        case '9':
-            printf("Exit\n");
-            break;
-        default:
-            system("clear");
-            displayMenu();
-    }
+        // Once the user input is valid and is a one digit character
+        if(valid == true){
 
+            // Take the first character and then check that it matches 1-5 and 9.
+            // If the user enters a number that isn't between 1 and 5 or number 9 then valid becomes false.
+            // The user is then prompted again for their new input.
+            char firstChar = input[0];
 
-
+            switch(firstChar){
+                case '1':
+                    printf("Add Machine\n");
+                    valid = true;
+                    break;
+                case '2':
+                    printf("Show All Machines\n");
+                    valid = true;
+                    break;
+                case '3':
+                    printf("Search By Index\n");
+                    valid = true;
+                    break;
+                case '4':
+                    printf("Delete Machine\n");
+                    valid = true;
+                    break;
+                case '5':
+                    printf("Update Status\n");
+                    valid = true;
+                    break;
+                case '9':
+                    printf("Exit\n");
+                    valid = true;
+                    exit(0);
+                    break;
+                default:
+                    valid = false;
+                    break;
+            }
+        }
+    }while(valid == false);
 }
 
 void main(){
