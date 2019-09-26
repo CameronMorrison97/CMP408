@@ -3,9 +3,11 @@
 	<stdio.h>
 	<stdlib.h>
 
-1569414883 source:/home/abertay/CMP408/main.c
+1569508086 source:/home/abertay/CMP408/main.c
 	<stdio.h>
 	<stdlib.h>
+	<string.h>
+	<stdbool.h>
 
 1569466425 source:/home/cam/Documents/CMP408/main.c
 	<stdio.h>

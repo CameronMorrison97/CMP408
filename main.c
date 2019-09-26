@@ -2,6 +2,7 @@
 // Used for stdin and stdout
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // Used for access to booleans
 #include<stdbool.h>
@@ -17,14 +18,18 @@ struct vendingMachine{
 };
 
 void addVendingMachine(){
-    struct vendingMachine machine1;
-    machine1.index = 1;
-    machine1.name = "Hacklab";
-    machine1.pin = 1;
-    machine1.status = true;
-    machine1.Location = 4511;
+    struct vendingMachine newMachine;
+    newMachine.index = 2;
+    newMachine.name = "Hacklab";
+    newMachine.pin = 1;
+    newMachine.status = false;
+    newMachine.Location = 4511;
 
-    system("echo 1,Hacklab,1,1,4511 > machineData.txt");
+    char *status = (newMachine.status == true) ? "true" : "false";
+
+    char test[100];
+    sprintf(test, "echo %d,%s,%d,%s,%d > machineData.txt",newMachine.index, newMachine.name,newMachine.pin,status,newMachine.Location);
+    system(test);
 }
 
 /**
@@ -115,5 +120,7 @@ void displayMenu(){
 }
 
 void main(){
+    // TODO Check if user has read/write permissions.
+
     displayMenu();
 }
