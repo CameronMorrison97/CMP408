@@ -8,6 +8,25 @@
 
 #define INVALID 0
 
+struct vendingMachine{
+    int index;
+    char *name;
+    int pin;
+    bool status;
+    int Location;
+};
+
+void addVendingMachine(){
+    struct vendingMachine machine1;
+    machine1.index = 1;
+    machine1.name = "Hacklab";
+    machine1.pin = 1;
+    machine1.status = true;
+    machine1.Location = 4511;
+
+    system("echo 1,Hacklab,1,1,4511 > machineData.txt");
+}
+
 /**
     Validates user input and returns the first character of the array.
     @Param char input[2] - returns the input array which the user input their selection.
@@ -64,6 +83,7 @@ void displayMenu(){
                 case '1':
                     printf("Add Machine\n");
                     valid = true;
+                    addVendingMachine();
                     break;
                 case '2':
                     printf("Show All Machines\n");
