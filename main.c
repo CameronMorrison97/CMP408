@@ -20,10 +20,45 @@ struct vendingMachine{
 void addVendingMachine(){
     struct vendingMachine newMachine;
     newMachine.index = 2;
-    newMachine.name = "Hacklab";
-    newMachine.pin = 1;
-    newMachine.status = false;
-    newMachine.Location = 4511;
+
+    newMachine.name = (char *)malloc(10);
+    system("clear");
+    printf("Name of vending machine: ");
+    scanf("%s",newMachine.name);
+    fflush(stdin);
+
+    system("clear");
+    printf("Enter machine pin: ");
+    scanf("%d",&newMachine.pin);
+    fflush(stdin);
+
+    bool validStatus = false;
+    do{
+        system("clear");
+        printf("Please enter 0 or 1 for machine status: ");
+        int status = -1;
+        scanf("%d",&status);
+        fflush(stdin);
+
+        switch(status){
+            case 0:
+                newMachine.status = true;
+                validStatus = true;
+                break;
+            case 1:
+                newMachine.status = false;
+                validStatus = true;
+                break;
+            default:
+                validStatus = false;
+                break;
+        }
+    }while(validStatus == false);
+
+    system("clear");
+    printf("Please enter room number of the Vending Machine: ");
+    scanf("%d",&newMachine.Location);
+    fflush(stdin);
 
     char *status = (newMachine.status == true) ? "true" : "false";
 
