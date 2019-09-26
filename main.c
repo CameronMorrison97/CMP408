@@ -89,6 +89,7 @@ void displayMenu(){
     char input[2];
     bool valid;
 
+    system("clear");
     printf("***************************************************************\n");
     printf("*Vending Machine Control Console                              *\n");
     printf("*                               Submitted By: Cameron Morrison*\n");
@@ -142,7 +143,7 @@ void displayMenu(){
                     valid = true;
                     break;
                 case '9':
-                    printf("Exit\n");
+                    printf("Exitint program...\n");
                     valid = true;
                     exit(0);
                     break;
@@ -156,6 +157,7 @@ void displayMenu(){
 
 void main(){
     // TODO Check if user has read/write permissions.
-
-    displayMenu();
+    while(true){
+        displayMenu();
+    }
 }
