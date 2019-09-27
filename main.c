@@ -6,6 +6,7 @@
 
 // Used for access to booleans
 #include<stdbool.h>
+#include <unistd.h>
 
 #define INVALID 0
 
@@ -63,7 +64,7 @@ void addVendingMachine(){
     char *status = (newMachine.status == true) ? "true" : "false";
 
     char test[100];
-    sprintf(test, "echo %d,%s,%d,%s,%d > machineData.txt",newMachine.index, newMachine.name,newMachine.pin,status,newMachine.Location);
+    sprintf(test, "echo %d,%s,%d,%s,%d >> machineData.txt",newMachine.index, newMachine.name,newMachine.pin,status,newMachine.Location);
     system(test);
 }
 
@@ -143,7 +144,7 @@ void displayMenu(){
                     valid = true;
                     break;
                 case '9':
-                    printf("Exitint program...\n");
+                    printf("Exiting program...\n");
                     valid = true;
                     exit(0);
                     break;
@@ -156,6 +157,30 @@ void displayMenu(){
 }
 
 void main(){
+
+    if(access(".",R_OK) != 0 && access(".",W_OK) != 0){
+        printf("You do no have permissions to write to the current directory. Please contact your system administrator.\n");
+        exit(-1);
+    }
+
+    char fbuff[255];
+    char* line_buf;
+    int line_buf_size = 0;
+
+    // Read file
+    FILE *fp = fopen("machineData.txt","rw");
+
+    if(fp == NULL){
+        printf("Unable to read file.");
+    }
+
+    int lineSize;
+
+    do{
+        lineSize = getline(&line_buf, &line_buf_size, fp);
+        printf("%s",line_buf);
+    }while(lineSize != -1);
+
     // TODO Check if user has read/write permissions.
     while(true){
         displayMenu();
