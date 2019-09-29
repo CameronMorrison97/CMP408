@@ -19,6 +19,16 @@ struct vendingMachine{
 };
 
 struct vendingMachine vendingMachines[256];
+int numOfRecords = 0;
+
+void displayRecords(){
+    printf("Index  Name  Pin  Status  Location\n\n");
+    for(int i =0 ;i < numOfRecords; i++){
+        char *status = (vendingMachines[i].status == true) ? "true" : "false";
+        printf("%d %s %d %s %s",vendingMachines[i].index, vendingMachines[i].name, vendingMachines[i].pin,status, vendingMachines[i].Location);
+    }
+    printf("\n\n");
+}
 
 void updateRecords(){
     memset(&vendingMachines, 0, sizeof(vendingMachines));
@@ -61,6 +71,8 @@ void updateRecords(){
         idx++;
         lineSize = getline(&line_buf, &line_buf_size, fp);
     }while(lineSize != -1);
+
+    numOfRecords = idx+1;
 
     fclose(fp);
 }
@@ -150,7 +162,6 @@ void displayMenu(){
     char input[2];
     bool valid;
 
-    system("clear");
     printf("***************************************************************\n");
     printf("*Vending Machine Control Console                              *\n");
     printf("*                               Submitted By: Cameron Morrison*\n");
@@ -183,13 +194,12 @@ void displayMenu(){
 
             switch(firstChar){
                 case '1':
-                    printf("Add Machine");
                     valid = true;
                     addVendingMachine();
                     updateRecords();
                     break;
                 case '2':
-                    printf("Show All Machines\n");
+                    displayRecords();
                     valid = true;
                     break;
                 case '3':
@@ -223,6 +233,8 @@ void main(){
         printf("You do no have permissions to write to the current directory. Please contact your system administrator.\n");
         exit(-1);
     }
+
+    updateRecords();
 
     // TODO Check if user has read/write permissions.
     while(true){
