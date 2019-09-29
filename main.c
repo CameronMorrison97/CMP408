@@ -11,27 +11,33 @@
 #define INVALID 0
 
 struct vendingMachine{
-    int index;
-    char *name;
+    char name[8];
     int pin;
     bool status;
-    int Location;
+    char Location[16];
 };
 
 void addVendingMachine(){
     struct vendingMachine newMachine;
-    newMachine.index = 2;
 
-    newMachine.name = (char *)malloc(10);
-    system("clear");
     printf("Name of vending machine: ");
     scanf("%s",newMachine.name);
-    fflush(stdin);
 
-    system("clear");
-    printf("Enter machine pin: ");
-    scanf("%d",&newMachine.pin);
-    fflush(stdin);
+    while(true){
+        system("clear");
+        printf("Enter machine pin: ");
+        scanf("%d",&newMachine.pin);
+
+        // ask lecture about pin validation...
+        if(newMachine.pin > 0 && newMachine.pin < 10000){
+            break;
+        }
+
+        // reference this.
+        int c;
+        /* discard all characters up to and including newline */
+        while ((c = getchar()) != '\n' && c != EOF);
+    }
 
     bool validStatus = false;
     do{
@@ -39,7 +45,11 @@ void addVendingMachine(){
         printf("Please enter 0 or 1 for machine status: ");
         int status = -1;
         scanf("%d",&status);
-        fflush(stdin);
+
+        // reference this.
+        int c;
+        /* discard all characters up to and including newline */
+        while ((c = getchar()) != '\n' && c != EOF);
 
         switch(status){
             case 0:
@@ -58,13 +68,12 @@ void addVendingMachine(){
 
     system("clear");
     printf("Please enter room number of the Vending Machine: ");
-    scanf("%d",&newMachine.Location);
-    fflush(stdin);
+    scanf("%s",&newMachine.Location);
 
     char *status = (newMachine.status == true) ? "true" : "false";
 
-    char test[100];
-    sprintf(test, "echo %d,%s,%d,%s,%d >> machineData.txt",newMachine.index, newMachine.name,newMachine.pin,status,newMachine.Location);
+    char test[256];
+    sprintf(test, "echo %s,%d,%s,%s >> machineData.txt", newMachine.name,newMachine.pin,status,newMachine.Location);
     system(test);
 }
 
@@ -123,7 +132,7 @@ void displayMenu(){
 
             switch(firstChar){
                 case '1':
-                    printf("Add Machine\n");
+                    printf("Add Machine");
                     valid = true;
                     addVendingMachine();
                     break;
@@ -163,10 +172,11 @@ void main(){
         exit(-1);
     }
 
-    char fbuff[255];
-    char* line_buf;
+    // https://stackoverflow.com/questions/11198305/segmentation-fault-upon-input-with-getline
+    char* line_buf = NULL;
     int line_buf_size = 0;
 
+    // Throws seg fault if no file present....
     // Read file
     FILE *fp = fopen("machineData.txt","rw");
 
@@ -178,8 +188,9 @@ void main(){
 
     do{
         lineSize = getline(&line_buf, &line_buf_size, fp);
-        printf("%s",line_buf);
     }while(lineSize != -1);
+
+    fclose(fp);
 
     // TODO Check if user has read/write permissions.
     while(true){
