@@ -11,12 +11,63 @@
 #define INVALID 0
 
 struct vendingMachine{
+    int index;
     char name[8];
     int pin;
     bool status;
     char Location[16];
 };
 
+struct vendingMachine vendingMachines[256];
+
+void updateRecords(){
+    memset(&vendingMachines, 0, sizeof(vendingMachines));
+
+    // https://stackoverflow.com/questions/11198305/segmentation-fault-upon-input-with-getline
+    char* line_buf = NULL;
+    int line_buf_size = 0;
+    int idx = 0;
+
+    // Throws seg fault if no file present....
+    // Read file
+    FILE *fp = fopen("machineData.txt","rw");
+
+    if(fp == NULL){
+        printf("Unable to read file.");
+    }
+
+    // Potential bug here if machineData.txt is empty??
+    int lineSize = getline(&line_buf, &line_buf_size, fp);
+
+    do{
+        vendingMachines[idx].index = idx;
+
+        char *ptr = strtok(line_buf,",");
+        strcpy(vendingMachines[idx].name,ptr);
+
+        ptr = strtok(NULL,",");
+        vendingMachines[idx].pin = atoi(ptr);
+
+        ptr = strtok(NULL,",");
+
+        if(strcmp(ptr,"true") == 0){
+            vendingMachines[idx].status = true;
+        }else{
+            vendingMachines[idx].status = false;
+        }
+
+        ptr = strtok(NULL,",");
+        strcpy(vendingMachines[idx].Location, ptr);
+        idx++;
+        lineSize = getline(&line_buf, &line_buf_size, fp);
+    }while(lineSize != -1);
+
+    fclose(fp);
+}
+
+/**
+    Adds a vending machine to a csv that contains machine data called machineData.txt
+**/
 void addVendingMachine(){
     struct vendingMachine newMachine;
 
@@ -135,6 +186,7 @@ void displayMenu(){
                     printf("Add Machine");
                     valid = true;
                     addVendingMachine();
+                    updateRecords();
                     break;
                 case '2':
                     printf("Show All Machines\n");
@@ -171,26 +223,6 @@ void main(){
         printf("You do no have permissions to write to the current directory. Please contact your system administrator.\n");
         exit(-1);
     }
-
-    // https://stackoverflow.com/questions/11198305/segmentation-fault-upon-input-with-getline
-    char* line_buf = NULL;
-    int line_buf_size = 0;
-
-    // Throws seg fault if no file present....
-    // Read file
-    FILE *fp = fopen("machineData.txt","rw");
-
-    if(fp == NULL){
-        printf("Unable to read file.");
-    }
-
-    int lineSize;
-
-    do{
-        lineSize = getline(&line_buf, &line_buf_size, fp);
-    }while(lineSize != -1);
-
-    fclose(fp);
 
     // TODO Check if user has read/write permissions.
     while(true){
