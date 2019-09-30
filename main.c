@@ -66,9 +66,23 @@ void updateStatus(){
         }
     }while(validStatus == false);
 
-    char *Vendstatus = (vendingMachines[selection].status == true) ? "true" : "false";
+    // empty file https://superuser.com/questions/90008/how-to-clear-the-contents-of-a-file-from-the-command-line
+    system("truncate -s 0 machineData.txt");
 
-    printf("%d %s %d %s %s",vendingMachines[selection].index, vendingMachines[selection].name, vendingMachines[selection].pin,Vendstatus, vendingMachines[selection].Location);
+    // Throws seg fault if no file present....
+    // Read file
+    FILE *fp = fopen("machineData.txt","a+");
+
+    if(fp == NULL){
+        printf("Unable to write to file.");
+    }
+
+    for(int i =0 ; i < numOfRecords; i++){
+        char *Vendstatus = (vendingMachines[i].status == true) ? "true" : "false";
+        fprintf(fp, "%s,%d,%s,%s",vendingMachines[i].name, vendingMachines[i].pin,Vendstatus, vendingMachines[i].Location);
+    }
+
+    fclose(fp);
 }
 
 void displayIndividualRecord(){
@@ -147,7 +161,7 @@ void updateRecords(){
         lineSize = getline(&line_buf, &line_buf_size, fp);
     }while(lineSize != -1);
 
-    numOfRecords = idx+1;
+    numOfRecords = idx;
 
     fclose(fp);
 }
@@ -210,9 +224,16 @@ void addVendingMachine(){
 
     char *status = (newMachine.status == true) ? "true" : "false";
 
-    char test[256];
-    sprintf(test, "echo %s,%d,%s,%s >> machineData.txt", newMachine.name,newMachine.pin,status,newMachine.Location);
-    system(test);
+    // Throws seg fault if no file present....
+    // Read file
+    FILE *fp = fopen("machineData.txt","a+");
+
+    if(fp == NULL){
+        printf("Unable to write to file.");
+    }
+
+    fprintf(fp,"%s,%d,%s,%s\n",newMachine.name,newMachine.pin,status,newMachine.Location);
+    fclose(fp);
 }
 
 /**

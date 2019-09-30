@@ -1,6 +1,6 @@
 hack1,4511,false,4511
 hack2,4511,false,4511
-hack3,4511,true,4511
+hack3,4511,false,4511
 hack4,4511,false,4511
 hack5,4511,false,4511
 hack,123,false,4511
@@ -14,5 +14,4 @@ hack,123,false,4511
 hacker,123,true,123
 hacking,234,true,111
 hacking,234,false,44
-jk,888,true,white
-newRecor{,123,true,4511
+jk,888,false,white
