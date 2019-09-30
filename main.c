@@ -21,6 +21,81 @@ struct vendingMachine{
 struct vendingMachine vendingMachines[256];
 int numOfRecords = 0;
 
+void updateStatus(){
+    int selection;
+
+    while(true){
+        printf("Please select the index of the vending machine that you would like to access: ");
+
+        scanf("%d",&selection);
+
+        // Check that selection is digit too??
+        if(selection >= 0 && selection < numOfRecords){
+            break;
+        }
+
+        // reference this.
+        int c;
+        /* discard all characters up to and including newline */
+        while ((c = getchar()) != '\n' && c != EOF);
+    }
+
+    bool validStatus = false;
+    do{
+        printf("Please enter 0 or 1 for machine status: ");
+        int status = -1;
+        scanf("%d",&status);
+
+        // reference this.
+        int c;
+        /* discard all characters up to and including newline */
+        while ((c = getchar()) != '\n' && c != EOF);
+
+        switch(status){
+            case 0:
+                vendingMachines[selection].status = true;
+                validStatus = true;
+                break;
+            case 1:
+                vendingMachines[selection].status = false;
+                validStatus = true;
+                break;
+            default:
+                validStatus = false;
+                break;
+        }
+    }while(validStatus == false);
+
+    char *Vendstatus = (vendingMachines[selection].status == true) ? "true" : "false";
+
+    printf("%d %s %d %s %s",vendingMachines[selection].index, vendingMachines[selection].name, vendingMachines[selection].pin,Vendstatus, vendingMachines[selection].Location);
+}
+
+void displayIndividualRecord(){
+    int selection;
+
+    while(true){
+        printf("Please select the index of the vending machine that you would like to access: ");
+
+        scanf("%d",&selection);
+
+        // Check that selection is digit too??
+        if(selection >= 0 && selection < numOfRecords){
+            break;
+        }
+
+        // reference this.
+        int c;
+        /* discard all characters up to and including newline */
+        while ((c = getchar()) != '\n' && c != EOF);
+    }
+
+    printf("Index  Name  Pin  Status  Location\n\n");
+
+    char *status = (vendingMachines[selection].status == true) ? "true" : "false";
+    printf("%d %s %d %s %s",vendingMachines[selection].index, vendingMachines[selection].name, vendingMachines[selection].pin,status, vendingMachines[selection].Location);
+}
+
 void displayRecords(){
     printf("Index  Name  Pin  Status  Location\n\n");
     for(int i =0 ;i < numOfRecords; i++){
@@ -203,7 +278,7 @@ void displayMenu(){
                     valid = true;
                     break;
                 case '3':
-                    printf("Search By Index\n");
+                    displayIndividualRecord();
                     valid = true;
                     break;
                 case '4':
@@ -211,7 +286,7 @@ void displayMenu(){
                     valid = true;
                     break;
                 case '5':
-                    printf("Update Status\n");
+                    updateStatus();
                     valid = true;
                     break;
                 case '9':
