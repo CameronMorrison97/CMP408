@@ -18,8 +18,52 @@ struct vendingMachine{
     char Location[16];
 };
 
-struct vendingMachine vendingMachines[256];
+struct vendingMachine vendingMachines[5];
 int numOfRecords = 0;
+
+void deleteRecord(){
+    int selection;
+
+    while(true){
+        printf("Please select the index of the vending machine that you would like to delete: ");
+
+        scanf("%d",&selection);
+
+        // Check that selection is digit too??
+        if(selection >= 0 && selection < numOfRecords){
+            break;
+        }
+
+        // reference this.
+        int c;
+        /* discard all characters up to and including newline */
+        while ((c = getchar()) != '\n' && c != EOF);
+    }
+
+    // Throws seg fault if no file present....
+    // Read file
+    FILE *fp = fopen("machineData.txt","a+");
+
+    if(fp == NULL){
+        printf("Unable to write to file.");
+        exit(-1);
+    }
+
+    vendingMachines[selection].index = -1;
+
+    system("truncate -s 0 machineData.txt");
+
+    for(int i =0; i < numOfRecords; i++){
+        if(vendingMachines[i].index == -1){
+            continue;
+        }
+
+        char *Vendstatus = (vendingMachines[i].status == true) ? "true" : "false";
+        fprintf(fp, "%s,%d,%s,%s",vendingMachines[i].name, vendingMachines[i].pin,Vendstatus, vendingMachines[i].Location);
+    }
+
+    fclose(fp);
+}
 
 void updateStatus(){
     int selection;
@@ -75,6 +119,7 @@ void updateStatus(){
 
     if(fp == NULL){
         printf("Unable to write to file.");
+        exit(-1);
     }
 
     for(int i =0 ; i < numOfRecords; i++){
@@ -133,6 +178,7 @@ void updateRecords(){
 
     if(fp == NULL){
         printf("Unable to read file.");
+        exit(-1);
     }
 
     // Potential bug here if machineData.txt is empty??
@@ -230,6 +276,7 @@ void addVendingMachine(){
 
     if(fp == NULL){
         printf("Unable to write to file.");
+        exit(-1);
     }
 
     fprintf(fp,"%s,%d,%s,%s\n",newMachine.name,newMachine.pin,status,newMachine.Location);
@@ -303,7 +350,8 @@ void displayMenu(){
                     valid = true;
                     break;
                 case '4':
-                    printf("Delete Machine\n");
+                    deleteRecord();
+                    updateRecords();
                     valid = true;
                     break;
                 case '5':
