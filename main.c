@@ -88,7 +88,7 @@ void updateStatus(){
 
     bool validStatus = false;
     do{
-        printf("Please enter 0 or 1 for machine status: ");
+        printf("Please enter 0(false) or 1(true) for machine status: ");
         int status = -1;
         scanf("%d",&status);
 
@@ -186,7 +186,7 @@ void updateRecords(){
     // Potential bug here if machineData.txt is empty??
     int lineSize = getline(&line_buf, &line_buf_size, fp);
 
-    do{
+    while(lineSize != -1){
         vendingMachines[idx].index = idx;
 
         char *ptr = strtok(line_buf,",");
@@ -207,7 +207,7 @@ void updateRecords(){
         strcpy(vendingMachines[idx].Location, ptr);
         idx++;
         lineSize = getline(&line_buf, &line_buf_size, fp);
-    }while(lineSize != -1);
+    }
 
     numOfRecords = idx;
 
@@ -340,24 +340,47 @@ void displayMenu(){
             switch(firstChar){
                 case '1':
                     valid = true;
-                    addVendingMachine();
-                    updateRecords();
+
+                    if(numOfRecords < 5){
+                        addVendingMachine();
+                        updateRecords();
+                    }else{
+                        printf("Too many vending machines entered please delete one.\n");
+                    }
                     break;
                 case '2':
-                    displayRecords();
+                    if(numOfRecords != 0){
+                     displayRecords();
+                    }else{
+                        printf("My records are empty. Please add a vending machine\n");
+                    }
+
                     valid = true;
                     break;
                 case '3':
-                    displayIndividualRecord();
+                    if(numOfRecords != 0){
+                     displayIndividualRecord();
+                    }else{
+                        printf("My records are empty. Please add a vending machine\n");
+                    }
                     valid = true;
                     break;
                 case '4':
-                    deleteRecord();
-                    updateRecords();
+
+                    if(numOfRecords != 0){
+                     deleteRecord();
+                     updateRecords();
+                    }else{
+                        printf("My records are empty. Please add a vending machine\n");
+                    }
                     valid = true;
                     break;
                 case '5':
-                    updateStatus();
+                    if(numOfRecords != 0){
+                     updateStatus();
+                    }else{
+                        printf("My records are empty. Please add a vending machine\n");
+                    }
                     valid = true;
                     break;
                 case '9':
