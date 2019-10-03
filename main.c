@@ -9,6 +9,7 @@
 #include <unistd.h>
 
 #define INVALID 0
+#define PINNUM 40
 
 struct vendingMachine{
     int index;
@@ -54,6 +55,7 @@ void deleteRecord(){
     system("truncate -s 0 machineData.txt");
 
     for(int i =0; i < numOfRecords; i++){
+        // mark for delete
         if(vendingMachines[i].index == -1){
             continue;
         }
@@ -96,11 +98,11 @@ void updateStatus(){
         while ((c = getchar()) != '\n' && c != EOF);
 
         switch(status){
-            case 0:
+            case 1:
                 vendingMachines[selection].status = true;
                 validStatus = true;
                 break;
-            case 1:
+            case 0:
                 vendingMachines[selection].status = false;
                 validStatus = true;
                 break;
@@ -227,7 +229,7 @@ void addVendingMachine(){
         scanf("%d",&newMachine.pin);
 
         // ask lecture about pin validation...
-        if(newMachine.pin > 0 && newMachine.pin < 10000){
+        if(newMachine.pin > 0 && newMachine.pin <= PINNUM){
             break;
         }
 
@@ -250,11 +252,11 @@ void addVendingMachine(){
         while ((c = getchar()) != '\n' && c != EOF);
 
         switch(status){
-            case 0:
+            case 1:
                 newMachine.status = true;
                 validStatus = true;
                 break;
-            case 1:
+            case 0:
                 newMachine.status = false;
                 validStatus = true;
                 break;

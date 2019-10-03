@@ -1,2 +1,6 @@
 hack1,4511,false,4511
-hacker,12,true,4511
+hack,12,false,4511
+hack,12,false,4511
+hack,12,true,4511
+hack,39,true,4511
+hacking,12,true,4511
