@@ -8,7 +8,8 @@
 #include<stdbool.h>
 #include <unistd.h>
 
-#define INVALID 0
+#define NONE 0
+#define NUMBEROFMACHINES 5
 #define PINNUM 40
 
 struct vendingMachine{
@@ -19,7 +20,7 @@ struct vendingMachine{
     char Location[16];
 };
 
-struct vendingMachine vendingMachines[5];
+struct vendingMachine vendingMachines[NUMBEROFMACHINES];
 int numOfRecords = 0;
 
 void deleteRecord(){
@@ -242,7 +243,7 @@ void addVendingMachine(){
     bool validStatus = false;
     do{
         system("clear");
-        printf("Please enter 0 or 1 for machine status: ");
+        printf("Please enter 0(false) or 1(true) for machine status: ");
         int status = -1;
         scanf("%d",&status);
 
@@ -341,7 +342,7 @@ void displayMenu(){
                 case '1':
                     valid = true;
 
-                    if(numOfRecords < 5){
+                    if(numOfRecords < NUMBEROFMACHINES){
                         addVendingMachine();
                         updateRecords();
                     }else{
@@ -349,7 +350,7 @@ void displayMenu(){
                     }
                     break;
                 case '2':
-                    if(numOfRecords != 0){
+                    if(numOfRecords != NONE){
                      displayRecords();
                     }else{
                         printf("My records are empty. Please add a vending machine\n");
@@ -358,7 +359,7 @@ void displayMenu(){
                     valid = true;
                     break;
                 case '3':
-                    if(numOfRecords != 0){
+                    if(numOfRecords != NONE){
                      displayIndividualRecord();
                     }else{
                         printf("My records are empty. Please add a vending machine\n");
@@ -367,7 +368,7 @@ void displayMenu(){
                     break;
                 case '4':
 
-                    if(numOfRecords != 0){
+                    if(numOfRecords != NONE){
                      deleteRecord();
                      updateRecords();
                     }else{
@@ -376,7 +377,7 @@ void displayMenu(){
                     valid = true;
                     break;
                 case '5':
-                    if(numOfRecords != 0){
+                    if(numOfRecords != NONE){
                      updateStatus();
                     }else{
                         printf("My records are empty. Please add a vending machine\n");
