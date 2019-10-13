@@ -177,7 +177,7 @@ void updateRecords(){
 
     // Throws seg fault if no file present....
     // Read file
-    FILE *fp = fopen("machineData.txt","rw");
+    FILE *fp = fopen("machineData.txt","r+");
 
     if(fp == NULL){
         printf("Unable to read file.");
@@ -404,6 +404,7 @@ void main(){
         exit(-1);
     }
 
+    system("touch machineData.txt");
     updateRecords();
 
     // TODO Check if user has read/write permissions.
