@@ -23,6 +23,13 @@ struct vendingMachine{
 struct vendingMachine vendingMachines[NUMBEROFMACHINES];
 int numOfRecords = 0;
 
+void flushStdin(){
+    // reference this.
+        int c;
+        /* discard all characters up to and including newline */
+        while ((c = getchar()) != '\n' && c != EOF);
+}
+
 void deleteRecord(){
     int selection;
 
@@ -36,10 +43,7 @@ void deleteRecord(){
             break;
         }
 
-        // reference this.
-        int c;
-        /* discard all characters up to and including newline */
-        while ((c = getchar()) != '\n' && c != EOF);
+        flushStdin();
     }
 
     // Throws seg fault if no file present....
@@ -81,10 +85,7 @@ void updateStatus(){
             break;
         }
 
-        // reference this.
-        int c;
-        /* discard all characters up to and including newline */
-        while ((c = getchar()) != '\n' && c != EOF);
+        flushStdin();
     }
 
     bool validStatus = false;
@@ -93,10 +94,7 @@ void updateStatus(){
         int status = -1;
         scanf("%d",&status);
 
-        // reference this.
-        int c;
-        /* discard all characters up to and including newline */
-        while ((c = getchar()) != '\n' && c != EOF);
+        flushStdin();
 
         switch(status){
             case 1:
@@ -146,10 +144,7 @@ void displayIndividualRecord(){
             break;
         }
 
-        // reference this.
-        int c;
-        /* discard all characters up to and including newline */
-        while ((c = getchar()) != '\n' && c != EOF);
+        flushStdin();
     }
 
     printf("Index  Name  Pin  Status  Location\n\n");
@@ -234,10 +229,7 @@ void addVendingMachine(){
             break;
         }
 
-        // reference this.
-        int c;
-        /* discard all characters up to and including newline */
-        while ((c = getchar()) != '\n' && c != EOF);
+        flushStdin();
     }
 
     bool validStatus = false;
@@ -247,10 +239,7 @@ void addVendingMachine(){
         int status = -1;
         scanf("%d",&status);
 
-        // reference this.
-        int c;
-        /* discard all characters up to and including newline */
-        while ((c = getchar()) != '\n' && c != EOF);
+        flushStdin();
 
         switch(status){
             case 1:
@@ -325,7 +314,8 @@ void displayMenu(){
     do{
         // Get User Input
         printf("Enter your Choice: ");
-        scanf("%s", &input);
+        scanf("%2s", &input);
+        flushStdin();
 
         // Check if the user input is valid
         valid = validateInput(input);
