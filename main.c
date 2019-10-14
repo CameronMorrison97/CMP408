@@ -23,13 +23,19 @@ struct vendingMachine{
 struct vendingMachine vendingMachines[NUMBEROFMACHINES];
 int numOfRecords = 0;
 
+/**
+    code adapted from Addison-Wesley please refer to 1.0 in readme.txt for more information
+**/
 void flushStdin(){
-    // reference this.
+
         int c;
         /* discard all characters up to and including newline */
         while ((c = getchar()) != '\n' && c != EOF);
 }
 
+/**
+    Deletes a record from machineData.txt
+**/
 void deleteRecord(){
     int selection;
 
@@ -38,7 +44,7 @@ void deleteRecord(){
 
         scanf("%d",&selection);
 
-        // Check that selection is digit too??
+        // Checks that the user has entered a valid selection.
         if(selection >= 0 && selection < numOfRecords){
             break;
         }
@@ -46,19 +52,41 @@ void deleteRecord(){
         flushStdin();
     }
 
-    // Throws seg fault if no file present....
-    // Read file
+    /**
+        Code adapted from stack overflow please refer to 2.0 in readme.txt
+
+        Opens a file called machineData.txt in the append mode. This mode allows
+        the user to read and append to the end of files.
+    **/
     FILE *fp = fopen("machineData.txt","a+");
 
+    /**
+        code adapted from tutorialspoint please refer to 2.0 in readme.txt
+        checks that there wasn't an error when opening the file
+
+        If there was an error with opening the file machineData.txt then the execution of the program is terminated.
+    **/
     if(fp == NULL){
         printf("Unable to write to file.");
         exit(-1);
     }
 
+    // The selection that the user enters is given an index of -1.
+    // This highlights that the selection will be deleted.
     vendingMachines[selection].index = -1;
 
+    /**
+        system() function code taken from tutorials point please refer to 3.0 in readme.txt
+        truncate command taken from stack overflow user nono please refer to 4.0 in readme.txt
+
+        empties the contents of a file to zero bytes.
+    **/
     system("truncate -s 0 machineData.txt");
 
+    /**
+        Goes through the number of active records writes them into machineData.txt
+        except for the vending machine that has an index of -1 this is skipped over.
+    **/
     for(int i =0; i < numOfRecords; i++){
         // mark for delete
         if(vendingMachines[i].index == -1){
@@ -69,9 +97,18 @@ void deleteRecord(){
         fprintf(fp, "%s,%d,%s,%s",vendingMachines[i].name, vendingMachines[i].pin,Vendstatus, vendingMachines[i].Location);
     }
 
+    /**
+        Code taken from tutorialspoint please refer to 2.0 in readme.txt
+
+        Closes the file pointer if the file pointer isn't closed this can lead to a seg fault.
+    **/
     fclose(fp);
 }
 
+/**
+    Updates the status of the pin for the vending machine that the user enters
+    Can change from false to true and visa versa.
+**/
 void updateStatus(){
     int selection;
 
@@ -80,7 +117,9 @@ void updateStatus(){
 
         scanf("%d",&selection);
 
-        // Check that selection is digit too??
+        /**
+            checks that the selection that the user enters is between the first element and how ever many records are in machineData.txt
+        **/
         if(selection >= 0 && selection < numOfRecords){
             break;
         }
@@ -96,6 +135,11 @@ void updateStatus(){
 
         flushStdin();
 
+        /**
+            Returns true of false depend on whether the user an entered 0 or 1
+            if the user enters anything other than 0 or 1 the user is then prompted
+            for their answer again.
+        **/
         switch(status){
             case 1:
                 vendingMachines[selection].status = true;
@@ -111,29 +155,63 @@ void updateStatus(){
         }
     }while(validStatus == false);
 
-    // empty file https://superuser.com/questions/90008/how-to-clear-the-contents-of-a-file-from-the-command-line
+    /**
+        system() function code taken from tutorials point please refer to 3.0 in readme.txt
+        truncate command taken from stack overflow user nono please refer to 4.0 in readme.txt
+
+        empties the contents of a file to zero bytes.
+    **/
     system("truncate -s 0 machineData.txt");
 
-    // Throws seg fault if no file present....
-    // Read file
+    /**
+        Code adapted from stack overflow please refer to 2.0 in readme.txt
+
+        Opens a file called machineData.txt in the append mode. This mode allows
+        the user to read and append to the end of files.
+    **/
     FILE *fp = fopen("machineData.txt","a+");
 
+    /**
+        code adapted from tutorialspoint please refer to 2.0 in readme.txt
+        checks that there wasn't an error when opening the file
+
+        If there was an error with opening the file machineData.txt then the execution of the program is terminated.
+    **/
     if(fp == NULL){
         printf("Unable to write to file.");
         exit(-1);
     }
 
+    /**
+        loop through the number of records in machineData.txt
+    **/
     for(int i =0 ; i < numOfRecords; i++){
         char *Vendstatus = (vendingMachines[i].status == true) ? "true" : "false";
+
+        /**
+            Code taken from tutorials point please refer to 5.0 in readme.txt
+        **/
         fprintf(fp, "%s,%d,%s,%s",vendingMachines[i].name, vendingMachines[i].pin,Vendstatus, vendingMachines[i].Location);
     }
 
+    /**
+        Code taken from tutorialspoint please refer to 2.0 in readme.txt
+
+        Closes the file pointer if the file pointer isn't closed this can lead to a seg fault.
+    **/
     fclose(fp);
 }
 
+
+/**
+    Gets an individual record of the users choice.
+**/
 void displayIndividualRecord(){
     int selection;
 
+    /**
+        Prompt the user for a valid choice.
+    **/
     while(true){
         printf("Please select the index of the vending machine that you would like to access: ");
 
@@ -149,10 +227,16 @@ void displayIndividualRecord(){
 
     printf("Index  Name  Pin  Status  Location\n\n");
 
+    /**
+        Print out the users choice.
+    **/
     char *status = (vendingMachines[selection].status == true) ? "true" : "false";
     printf("%d %s %d %s %s",vendingMachines[selection].index, vendingMachines[selection].name, vendingMachines[selection].pin,status, vendingMachines[selection].Location);
 }
 
+/**
+    Display all of the records in machineData.txt
+**/
 void displayRecords(){
     printf("Index  Name  Pin  Status  Location\n\n");
     for(int i =0 ;i < numOfRecords; i++){
@@ -163,6 +247,9 @@ void displayRecords(){
 }
 
 void updateRecords(){
+    /**
+        Code taken from stack overflow user emplatetypedef please refer to
+    **/
     memset(&vendingMachines, 0, sizeof(vendingMachines));
 
     // https://stackoverflow.com/questions/11198305/segmentation-fault-upon-input-with-getline
@@ -170,24 +257,45 @@ void updateRecords(){
     int line_buf_size = 0;
     int idx = 0;
 
-    // Throws seg fault if no file present....
-    // Read file
+    /**
+        Code adapted from stack overflow please refer to 2.0 in readme.txt
+
+        Opens a file called machineData.txt in the append mode. This mode allows
+        the user to read a file the file must be open
+    **/
     FILE *fp = fopen("machineData.txt","r+");
 
+    /**
+        code adapted from tutorialspoint please refer to 2.0 in readme.txt
+        checks that there wasn't an error when opening the file
+
+        If there was an error with opening the file machineData.txt then the execution of the program is terminated.
+    **/
     if(fp == NULL){
         printf("Unable to read file.");
         exit(-1);
     }
 
-    // Potential bug here if machineData.txt is empty??
+    // Reads the next line of a file.
+    /**
+        Code taken from riptutorial.com please refer to 7.0 in readme.txt
+    **/
     int lineSize = getline(&line_buf, &line_buf_size, fp);
 
     while(lineSize != -1){
         vendingMachines[idx].index = idx;
 
+        /**
+            Splits the array holding the current line by the delimiter ','
+
+            Code taken from tutorialspoint.com please refer to 8.0 in readme.txt
+        **/
         char *ptr = strtok(line_buf,",");
         strcpy(vendingMachines[idx].name,ptr);
 
+        /**
+            Splits the pointer ptr by the delimiter ','
+        **/
         ptr = strtok(NULL,",");
         vendingMachines[idx].pin = atoi(ptr);
 
@@ -200,13 +308,26 @@ void updateRecords(){
         }
 
         ptr = strtok(NULL,",");
+        /**
+            copies the contents of ptr and places it in location
+        **/
         strcpy(vendingMachines[idx].Location, ptr);
+
+        /**
+            Gets the nextline
+            and iterates the index by 1
+        **/
         idx++;
         lineSize = getline(&line_buf, &line_buf_size, fp);
     }
 
     numOfRecords = idx;
 
+    /**
+        Code taken from tutorialspoint please refer to 2.0 in readme.txt
+
+        Closes the file pointer if the file pointer isn't closed this can lead to a seg fault.
+    **/
     fclose(fp);
 }
 
