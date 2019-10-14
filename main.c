@@ -217,7 +217,8 @@ void addVendingMachine(){
     struct vendingMachine newMachine;
 
     printf("Name of vending machine: ");
-    scanf("%s",newMachine.name);
+    scanf("%7s",newMachine.name);
+    flushStdin();
 
     while(true){
         system("clear");
@@ -258,7 +259,8 @@ void addVendingMachine(){
 
     system("clear");
     printf("Please enter room number of the Vending Machine: ");
-    scanf("%s",&newMachine.Location);
+    scanf("%14s",&newMachine.Location);
+    flushStdin();
 
     char *status = (newMachine.status == true) ? "true" : "false";
 
