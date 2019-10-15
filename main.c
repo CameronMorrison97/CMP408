@@ -246,9 +246,12 @@ void displayRecords(){
     printf("\n\n");
 }
 
+/**
+    Update machineData.txt to match what is in the struct array vendingMachines
+**/
 void updateRecords(){
     /**
-        Code taken from stack overflow user emplatetypedef please refer to
+        Code taken from stack overflow user emplatetypedef please refer to 6.0
     **/
     memset(&vendingMachines, 0, sizeof(vendingMachines));
 
@@ -309,7 +312,7 @@ void updateRecords(){
 
         ptr = strtok(NULL,",");
         /**
-            copies the contents of ptr and places it in location
+            copies the contents of ptr and places it in location please refer to 9.0 in readme.txt
         **/
         strcpy(vendingMachines[idx].Location, ptr);
 
@@ -335,18 +338,22 @@ void updateRecords(){
     Adds a vending machine to a csv that contains machine data called machineData.txt
 **/
 void addVendingMachine(){
+    // create a struct for the new vending machine.
     struct vendingMachine newMachine;
 
     printf("Name of vending machine: ");
     scanf("%7s",newMachine.name);
     flushStdin();
 
+    /**
+        Get the user to enter the pin number they want to control
+        if the pin number is higher or lower or isn't valid than the number of pins on a pi then ask again.
+    **/
     while(true){
         system("clear");
         printf("Enter machine pin: ");
         scanf("%d",&newMachine.pin);
 
-        // ask lecture about pin validation...
         if(newMachine.pin > 0 && newMachine.pin <= PINNUM){
             break;
         }
@@ -354,6 +361,9 @@ void addVendingMachine(){
         flushStdin();
     }
 
+    /**
+        Ask user for status if invalid ask again if 1 then true and 0 then false.
+    **/
     bool validStatus = false;
     do{
         system("clear");
@@ -385,16 +395,35 @@ void addVendingMachine(){
 
     char *status = (newMachine.status == true) ? "true" : "false";
 
-    // Throws seg fault if no file present....
-    // Read file
+    /**
+        Code adapted from stack overflow please refer to 2.0 in readme.txt
+
+        Opens a file called machineData.txt in the append mode. This mode allows
+        the user to read and append text to the end of the file.
+    **/
     FILE *fp = fopen("machineData.txt","a+");
 
+    /**
+        code adapted from tutorialspoint please refer to 2.0 in readme.txt
+        checks that there wasn't an error when opening the file
+
+        If there was an error with opening the file machineData.txt then the execution of the program is terminated.
+    **/
     if(fp == NULL){
         printf("Unable to write to file.");
         exit(-1);
     }
 
+    /**
+            Code taken from tutorials point please refer to 5.0 in readme.txt
+        **/
     fprintf(fp,"%s,%d,%s,%s\n",newMachine.name,newMachine.pin,status,newMachine.Location);
+
+    /**
+        Code taken from tutorialspoint please refer to 2.0 in readme.txt
+
+        Closes the file pointer if the file pointer isn't closed this can lead to a seg fault.
+    **/
     fclose(fp);
 }
 
@@ -512,6 +541,11 @@ void displayMenu(){
 
 void main(){
 
+    /**
+        Please refer to 10.0 in readme.txt code adapted from ibm.com
+
+        determines whether the user can read and write to the current directory of the executable.
+    **/
     if(access(".",R_OK) != 0 && access(".",W_OK) != 0){
         printf("You do no have permissions to write to the current directory. Please contact your system administrator.\n");
         exit(-1);
