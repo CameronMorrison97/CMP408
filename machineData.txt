@@ -1,5 +1,2 @@
-texttex,1,true,texttextextext
-\n1,1,true,4511
-stuff,1,true,4511
-stuff,12,false,4511
-hacker,12,true,s
+123,1,false,4511
+fewfewf,1,false,stuff

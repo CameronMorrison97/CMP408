@@ -3,6 +3,20 @@ CMP408 Assignment 1 Readme.txt
 Name : Cameron Morrison
 Student ID : 1702366
 
+What is the Label?
+The label is used to help the marker quickly identify an individual reference from thelist
+
+What is the subject?
+The subject is the title of the webpage in which code examples where taken from
+This also provides an insight about what the code was for. for example system()
+is for the c library function called system()
+
+What is Author?
+The author is the site or username of the person that posted the code example
+
+What is the Link?
+The link is self explanatory this the link that the code example was gathered from.
+
 Label : Subject : Author : Link
 1.0 : flushStdin() function : Addison-Wesley : http://c-faq.com/stdio/stdinflush2.html
 2.0 : File IO : tutorialspoint : https://www.tutorialspoint.com/c_standard_library/c_function_fopen.htm
@@ -14,3 +28,4 @@ Label : Subject : Author : Link
 8.0 : C library function - strtok : tutorialspoint : https://www.tutorialspoint.com/c_standard_library/c_function_strtok.htm
 9.0 : C library function - strcpy : tutorialspoint : https://www.tutorialspoint.com/c_standard_library/c_function_strcpy.htm
 10.0 : access() — Determine whether a file can be accessed : IBM : https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.1.0/com.ibm.zos.v2r1.bpxbd00/rtacc.htm
+11.0 : C library function - strlen : tutorialspoint : https://www.tutorialspoint.com/c_standard_library/c_function_strlen.htm

@@ -341,9 +341,32 @@ void addVendingMachine(){
     // create a struct for the new vending machine.
     struct vendingMachine newMachine;
 
-    printf("Name of vending machine: ");
-    scanf("%7s",newMachine.name);
-    flushStdin();
+    bool validName;
+
+    /**
+        This section of code allows the user to enter a name
+        This name is then check for invalid characters.
+        In this case because the file is split by comma(,) having commas in the file can cause seg faults in the program
+
+        If the user enters a comma in either the name of the vending machine or the location of the vending machine they
+        are then told that they entered an invalid character to re enter selection.
+    **/
+    do{
+        printf("Name of vending machine: ");
+        validName = true;
+        scanf("%7s",newMachine.name);
+        flushStdin();
+
+        /** Please refer to 11.0 in the readme for the reference to strlen**/
+        for(int i = 0; i < strlen(newMachine.name); i++){
+            char c = newMachine.name[i];
+
+            if(c == ','){
+                printf("Invalid Character\n");
+                validName = false;
+            }
+        }
+    }while(validName == false);
 
     /**
         Get the user to enter the pin number they want to control
@@ -388,10 +411,32 @@ void addVendingMachine(){
         }
     }while(validStatus == false);
 
-    system("clear");
-    printf("Please enter room number of the Vending Machine: ");
-    scanf("%14s",&newMachine.Location);
-    flushStdin();
+    bool validLocation;
+
+    /**
+        This section of code allows the user to enter a name
+        This name is then check for invalid characters.
+        In this case because the file is split by comma(,) having commas in the file can cause seg faults in the program
+
+        If the user enters a comma in either the name of the vending machine or the location of the vending machine they
+        are then told that they entered an invalid character to re enter selection.
+    **/
+    do{
+        system("clear");
+        printf("Please enter room number of the Vending Machine: ");
+        validLocation = true;
+        scanf("%14s",&newMachine.Location);
+        flushStdin();
+
+        for(int i = 0; i < strlen(newMachine.Location); i++){
+            char c = newMachine.Location[i];
+
+            if(c == ','){
+                printf("Invalid Character\n");
+                validLocation = false;
+            }
+        }
+    }while(validLocation == false);
 
     char *status = (newMachine.status == true) ? "true" : "false";
 
